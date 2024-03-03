@@ -1,0 +1,20 @@
+/* SPL Syntax Highlighting Colors for Obsidian */
+/* Author Connor Shields */
+/* Light Theme Colors */
+.theme-light .cm-s-obsidian .cm-keyword { color: rgb(2, 32, 200) !important; }
+.theme-light .cm-s-obsidian .cm-builtin { color: rgb(1, 177, 39) !important; }
+.theme-light .cm-s-obsidian .cm-comment { color: rgb(117, 117, 117) !important; }
+.theme-light .cm-s-obsidian .cm-number { color: rgb(108, 44, 121) !important; }
+.theme-light .cm-s-obsidian .cm-string { color: rgb(192, 161, 58) !important; }
+.theme-light .cm-s-obsidian .cm-operator { color: rgb(146, 0, 49) !important; }
+
+/* Dark Theme Colors */
+.theme-dark .cm-s-obsidian .cm-keyword { color: rgb(113, 169, 253) !important; } /* Brighter blue for better visibility */
+.theme-dark .cm-s-obsidian .cm-builtin { color: rgb(85, 202, 111) !important; } /* Cyan for built-in functions */
+.theme-dark .cm-s-obsidian .cm-comment { color: rgb(117, 117, 117) !important; } /* Lighter gray for comments */
+.theme-dark .cm-s-obsidian .cm-number { color: rgb(177, 77, 197) !important; } /* Bright pink for numbers */
+.theme-dark .cm-s-obsidian .cm-string { color: rgb(235, 205, 108) !important; } /* Bright green for strings */
+.theme-dark .cm-s-obsidian .cm-operator { color: rgb(221, 71, 121) !important; } /* Bright red for operators */
+
+/* General Adjustments for Compatibility and Aesthetics */
+/* Additional styles can be added below as needed */
