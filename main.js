@@ -1,3 +1,8 @@
+// SPL syntax highlighting
+// This defines a 'splunk' mode for CodeMirror which is the underlyting obsidian codeblock editor
+// SPL Syntax Highlighting Definitions based on docs.splunk.com 
+// Author: connor@shields.mx
+
 'use strict';
 
 var obsidian = require('obsidian');
@@ -33,17 +38,15 @@ function createCommonjsModule(fn, basedir, module) {
 }
 
 function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+	throw new Error('requires dont seem to be supported');
 }
 
 var codemirror = CodeMirror;
 
-var codemirror = CodeMirror;;
-
-// SPL Syntax Highlighting Definitions
+// SPL Syntax Highlighting Definitions based on docs.splunk.com 
 function defineSPLMode(CodeMirror) {
-    CodeMirror.defineMode("spl", function(config) {
-        var keywords = /^(abs|acos|where|index|sourcetype|source|acosh|asin|asinh|atan|atan2|atanh|case|cidrmatch|ceiling|coalesce|commands|cos|cosh|exact|exp|false|floor|hypot|if|in|isbool|isint|isnotnull|isnull|isnum|isstr|json_object|json_array|json_extract|json_keys|json_set|json_valid|len|like|log|lookup|ln|lower|ltrim|match|max|md5|min|mvappend|mvcount|mvdedup|mvfilter|mvfind|mvindex|mvjoin|mvmap|mvrange|mvsort|mvzip|now|null|nullif|pi|pow|printf|random|relative_time|replace|round|rtrim|searchmatch|sha1|sha256|sha512|sigfig|sin|sinh|spath|split|sqrt|strftime|strptime|substr|tan|tanh|time|tonumber|tostring|trim|true|typeof|upper|urldecode|validate|avg|count|distinct_count|earliest|earliest_time|estdc|estdc_error|first|last|latest|latest_time|list|max|mean|median|min|mode|percentile|per_day|per_hour|per_minute|per_second|range|rate|rate_avg|rate_sum|stdev|stdevp|sum|sumsq|values|var|varp)\b/;
+    CodeMirror.defineMode("splunk", function(config) {
+        var keywords = /^(abs|acos|where|index|sourcetype|source|acosh|asin|asinh|atan|atan2|atanh|case|cidrmatch|ceiling|coalesce|commands|cos|cosh|exact|exp|dc|false|floor|hypot|if|in|isbool|isint|isnotnull|isnull|isnum|isstr|json_object|json_array|json_extract|json_keys|json_set|json_valid|len|like|log|lookup|ln|lower|ltrim|match|max|md5|min|mvappend|mvcount|mvdedup|mvfilter|mvfind|mvindex|mvjoin|mvmap|mvrange|mvsort|mvzip|now|null|nullif|pi|pow|printf|random|relative_time|replace|round|rtrim|searchmatch|sha1|sha256|sha512|sigfig|sin|sinh|spath|split|sqrt|strftime|strptime|substr|tan|tanh|time|tonumber|tostring|trim|true|typeof|upper|urldecode|validate|avg|count|distinct_count|earliest|earliest_time|estdc|estdc_error|first|last|latest|latest_time|list|max|mean|median|min|mode|percentile|per_day|per_hour|per_minute|per_second|range|rate|rate_avg|rate_sum|stdev|stdevp|sum|sumsq|values|var|varp)\b/;
         var operators = /^\||(BY|AS|OR|AND|IN|WHERE|NOT)\b/;
         var built_ins = /^(as|by|over|where|output|outputnew|abstract|accum|addcoltotals|addinfo|addtotals|analyzefields|anomalies|anomalousvalue|anomalydetection|append|appendcols|appendpipe|arules|associate|audit|autoregress|awssnsalert|bin|bucket|bucketdir|cefout|chart|cluster|cofilter|collect|concurrency|contingency|convert|correlate|ctable|datamodel|datamodelsimple|dbinspect|dbxquery|dedup|delete|delta|diff|entitymerge|erex|eval|eventcount|eventstats|extract|fieldformat|fields|fieldsummary|filldown|fillnull|findtypes|folderize|foreach|format|from|gauge|gentimes|geom|geomfilter|geostats|head|highlight|history|iconify|inputcsv|inputintelligence|inputlookup|iplocation|join|kmeans|kvform|loadjob|localize|localop|lookup|makecontinuous|makemv|makeresults|map|mcollect|metadata|metasearch|meventcollect|mpreview|msearch|mstats|multikv|multisearch|mvcombine|mvexpand|nomv|outlier|outputcsv|outputlookup|outputtext|overlap|pivot|predict|rangemap|rare|redistribute|regex|relevancy|reltime|rename|replace|require|rest|return|reverse|rex|rtorder|run|savedsearch|script|scrub|search|searchtxn|selfjoin|sendemail|set|setfields|sichart|sirare|sistats|sitimechart|sitop|snowincident|snowincidentstream|snowevent|snoweventstream|sort|spath|stats|strcat|streamstats|table|tags|tail|timechart|timewrap|top|transaction|transpose|trendline|tscollect|tstats|typeahead|typelearner|typer|union|uniq|untable|walklex|where|x11|xmlkv|xmlunescape|xpath|xsDisplayConcept|xsDisplayContext|xsFindBestConcept|xsListConcepts|xsListContexts|xsUpdateDDContext|xsWhere|xyseries)\b/;
 
@@ -54,12 +57,12 @@ function defineSPLMode(CodeMirror) {
 
             if (ch === '/' && stream.eat('/')) {
                 stream.skipToEnd();
-                return 'comment'; // Single-line comment
+                return 'comment'; // single line comment - yes this is not comment syntax in splunk but the tick mark comment syntax can create issues with markdown codeblocks
             }
 
             if (ch === '"' || ch === "'") {
                 state.tokenize = tokenString(ch);
-                return state.tokenize(stream, state); // String tokenizer
+                return state.tokenize(stream, state); // string tokens
             }
 
             if (/\d/.test(ch)) {
@@ -68,26 +71,26 @@ function defineSPLMode(CodeMirror) {
             }
 
             if (/[{}\(\),;\:\.]/.test(ch)) {
-                return null; // Punctuation
+                return null; // punc
             }
 
             if (ch === '|' || ch === '=') {
-                return 'operator';
+                return 'operator'; // added the pipe character to operators because I've always wanted it to be highlighted
             }
 
             stream.eatWhile(/\w/);
             var cur = stream.current();
 
             if (keywords.test(cur)) {
-                return 'keyword';
+                return 'keyword'; // defined above
             }
 
             if (built_ins.test(cur)) {
-                return 'builtin';
+                return 'builtin'; // defined above
             }
 
             if (operators.test(cur)) {
-                return 'operator';
+                return 'operator'; // defined above
             }
 
             return 'variable';
@@ -119,7 +122,7 @@ function defineSPLMode(CodeMirror) {
         };
     });
     
-    CodeMirror.defineMIME("text/x-spl", "spl");
+    CodeMirror.defineMIME("text/x-splunk", "splunk");
 }
 
 // SPL Syntax Highlight Plugin Class
@@ -140,7 +143,7 @@ var SPLSyntaxHighlightPlugin = /** @class */ (function (_super) {
     
     SPLSyntaxHighlightPlugin.prototype.refreshLeaves = function () {
         this.app.workspace.iterateCodeMirrors(function (cm) {
-            cm.setOption("mode", "text/x-spl");
+            cm.setOption("mode", "text/x-splunk");
         });
     };
 
