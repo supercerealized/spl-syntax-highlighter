@@ -16,3 +16,7 @@ index=main user=supercerealized
 
 ### I'll add options to the UI for the plugin later
 - In the meantime, if you want to mess with colors edit the CSS file in .obsidian/plugins/spl-syntax-highlighter/styles.css
+
+**TODO:**
+- UI Options
+- Tick mark comment identification
